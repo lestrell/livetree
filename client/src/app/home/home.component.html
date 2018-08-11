@@ -8,33 +8,33 @@
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
       <button mat-icon-button disabled></button>
       <span>
-        {{node.type}}
-	  </span>
+        {{node.key}}
+      </span>
 
-	  <button *ngIf="node.level === 1" mat-icon-button color="primary" matTooltip="Add a factory node">
-        <mat-icon class="mat-icon-rtl-mirror"></mat-icon>
-	  </button>
+      <button (click)="editFactoryNodeDialog(node)" *ngIf="node.level === 1" mat-icon-button color="primary" [matTooltip]="'Edit factory node:' + node.filename ">
+        <mat-icon class="mat-icon-rtl-mirror">add</mat-icon>
+      </button>
 
     </mat-tree-node>
 
     <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-      <button mat-icon-button matTreeNodeToggle [matTooltip]="'toggle ' + node.filename">
+      <button mat-icon-button matTreeNodeToggle [matTooltip]="'toggle ' + node.key">
         <mat-icon class="mat-icon-rtl-mirror">
           {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
         </mat-icon>
       </button>
-      {{node.filename}}<!-- : {{node.type}}{{ node | json}} -->
+      {{node.key}}
+      <!-- : {{node.key}}{{ node | json}} -->
 
-      <button (click)="openNewFactoryDialog()" *ngIf="node.level === 0" mat-icon-button color="primary" matTooltip="Add a factory node">
+      <button (click)="openNewFactoryDialog(node)" *ngIf="node.level === 0" mat-icon-button color="primary" matTooltip="Add a factory node">
         <mat-icon class="mat-icon-rtl-mirror">add</mat-icon>
-	  </button>
+      </button>
 
-	  <button *ngIf="node.level === 1" mat-icon-button color="primary" matTooltip="Add a factory node">
-        <mat-icon class="mat-icon-rtl-mirror"></mat-icon>
+      <button (click)="editFactoryNodeDialog(node)" *ngIf="node.level === 1" mat-icon-button color="primary" [matTooltip]="'Edit factory node:' + node.filename ">
+        <mat-icon class="mat-icon-rtl-mirror">edit</mat-icon>
       </button>
 
     </mat-tree-node>
   </mat-tree>
-
 
 </div>

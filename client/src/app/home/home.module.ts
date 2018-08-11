@@ -13,6 +13,7 @@ import { MatTreeModule } from '@angular/material';
 import { FormsModule } from "@angular/forms";
 
 import { DialogSimpleInputComponent } from '../dialogs/dialog-simple-input/index.component';
+import { DialogRangePickerComponent } from '../dialogs/dialog-range-picker/index.component';
 
 @NgModule({
   imports: [
@@ -23,17 +24,16 @@ import { DialogSimpleInputComponent } from '../dialogs/dialog-simple-input/index
     FlexLayoutModule,
     MaterialModule,
     HomeRoutingModule,
-	MatTreeModule,
-	FormsModule
+    MatTreeModule,
     FormsModule
   ],
   declarations: [
-	HomeComponent,
-	DialogSimpleInputComponent
+    HomeComponent,
+    DialogSimpleInputComponent,
     DialogRangePickerComponent
   ],
   entryComponents: [
-	DialogSimpleInputComponent
+    DialogSimpleInputComponent,
     DialogRangePickerComponent
   ],
   providers: [

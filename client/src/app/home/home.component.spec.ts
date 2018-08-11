@@ -9,23 +9,25 @@ import { MaterialModule } from '@app/material.module';
 import { HomeComponent } from './home.component';
 import { QuoteService } from './quote.service';
 
+import { range } from "lodash";
+
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-        imports: [
-          BrowserAnimationsModule,
-          FlexLayoutModule,
-          MaterialModule,
-          CoreModule,
-          SharedModule,
-          HttpClientTestingModule
-        ],
-        declarations: [HomeComponent],
-        providers: [QuoteService]
-      })
+      imports: [
+        BrowserAnimationsModule,
+        FlexLayoutModule,
+        MaterialModule,
+        CoreModule,
+        SharedModule,
+        HttpClientTestingModule
+      ],
+      declarations: [HomeComponent],
+      providers: [QuoteService]
+    })
       .compileComponents();
   }));
 
@@ -38,4 +40,5 @@ describe('HomeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });
