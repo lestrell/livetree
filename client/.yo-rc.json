@@ -3,7 +3,7 @@
     "version": "5.0.1",
     "props": {
       "location": "path",
-      "appName": "challenge",
+      "appName": "livetree",
       "target": [
         "web"
       ],
@@ -13,7 +13,7 @@
       "auth": true,
       "lazy": false,
       "angulartics": false,
-      "projectName": "challenge",
+      "projectName": "livetree",
       "packageManager": "npm",
       "mobile": []
     }
