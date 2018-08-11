@@ -25,13 +25,16 @@ import { DialogSimpleInputComponent } from '../dialogs/dialog-simple-input/index
     HomeRoutingModule,
 	MatTreeModule,
 	FormsModule
+    FormsModule
   ],
   declarations: [
 	HomeComponent,
 	DialogSimpleInputComponent
+    DialogRangePickerComponent
   ],
   entryComponents: [
 	DialogSimpleInputComponent
+    DialogRangePickerComponent
   ],
   providers: [
     QuoteService
