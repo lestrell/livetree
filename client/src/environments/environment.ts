@@ -8,6 +8,7 @@ import env from './.env';
 
 export const environment = {
   production: false,
+  socketHost: "http://127.0.0.1:3000/",
   version: env.npm_package_version + '-dev',
   serverUrl: '/api',
   defaultLanguage: 'en-US',
