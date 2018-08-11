@@ -1,0 +1,31 @@
+{
+  "name": "livetree-server",
+  "version": "1.0.0",
+  "description": "Live-updating tree view web application",
+  "main": "./dist/server.js",
+  "scripts": {
+    "start:local": "node ./node_modules/typescript/bin/tsc --watch | node ./node_modules/nodemon/bin/nodemon.js --inspect ./dist/server.js --watch dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lestrell/livetree.git"
+  },
+  "author": "Lucas Estrella",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lestrell/livetree/issues"
+  },
+  "homepage": "https://github.com/lestrell/livetree#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "helmet": "^3.13.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.0",
+    "@types/helmet": "0.0.38",
+    "@types/node": "^10.5.8",
+    "nodemon": "^1.18.3",
+    "typescript": "^2.7.2"
+  }
+}
