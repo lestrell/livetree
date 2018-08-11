@@ -1,14 +1,40 @@
 <div class="container">
-  <mat-card>
-    <p>
-      <img class="logo" src="assets/ngx-rocket-logo.png" alt="angular logo"/>
-    </p>
-    <mat-card-content>
-      <mat-card-title translate>Hello world !</mat-card-title>
-      <mat-card-subtitle>
-        <app-loader [isLoading]="isLoading" size="1.5"></app-loader>
-        <q [hidden]="isLoading">{{quote}}</q>
-      </mat-card-subtitle>
-    </mat-card-content>
-  </mat-card>
+
+  <button mat-raised-button color="accent" (click)="tree.treeControl.collapseAll()">collapseAll</button>
+  <button mat-raised-button color="primary" (click)="tree.treeControl.expandAll()">expandAll</button>
+
+  <hr/>
+  <mat-tree #tree [dataSource]="dataSource" [treeControl]="treeControl">
+    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+      <button mat-icon-button disabled></button>
+      <span>
+        {{node.type}}
+	  </span>
+
+	  <button *ngIf="node.level === 1" mat-icon-button color="primary" matTooltip="Add a factory node">
+        <mat-icon class="mat-icon-rtl-mirror"></mat-icon>
+	  </button>
+
+    </mat-tree-node>
+
+    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+      <button mat-icon-button matTreeNodeToggle [matTooltip]="'toggle ' + node.filename">
+        <mat-icon class="mat-icon-rtl-mirror">
+          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+        </mat-icon>
+      </button>
+      {{node.filename}}<!-- : {{node.type}}{{ node | json}} -->
+
+      <button (click)="openNewFactoryDialog()" *ngIf="node.level === 0" mat-icon-button color="primary" matTooltip="Add a factory node">
+        <mat-icon class="mat-icon-rtl-mirror">add</mat-icon>
+	  </button>
+
+	  <button *ngIf="node.level === 1" mat-icon-button color="primary" matTooltip="Add a factory node">
+        <mat-icon class="mat-icon-rtl-mirror"></mat-icon>
+      </button>
+
+    </mat-tree-node>
+  </mat-tree>
+
+
 </div>
