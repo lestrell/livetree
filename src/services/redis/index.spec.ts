@@ -1,48 +1,40 @@
-import { app, chai, expect, mocha } from "../../../test";
-import { RedisService } from './index';
+import { expect } from "../../../test";
+import { RedisService as redis } from './index';
 
 describe("RedisService", () => {
 
-	before( () => RedisService.init() );
+	before(() => redis.init()); // if development, the database will be flushed everytime
 
 	it("Set/Get Many", (done: MochaDone) => {
 
-		RedisService.set("one", { key: "one", value: "valueOne" }, () => {});
-		RedisService.set("two", { key: "two", value: "valuetwo" }, () => {});
-		RedisService.set("three", { key: "three", value: "valuethree" }, () => {});
-		RedisService.set("four", { key: "four", value: "valuefour" }, () => {});
-
-		setTimeout( () => {
-			// RedisService._redis.keys("*", (error, data: any) => {
-			// 	console.log("*", error, data);
-			// });
-			RedisService._redis.get("*", (error, data: any) => {
-				console.log("*", error, data);
-				console.log(RedisService._redis);
-			});
+		Promise.all([
+			redis.set("one", { key: "one", value: "valueOne" }),
+			redis.set("two", { key: "two", value: "valuetwo" }),
+			redis.set("three", { key: "three", value: "valuethree" }),
+			redis.set("four", { key: "four", value: "valuefour" }),
+		])
+		.then(() => redis.getAll())
+		.then( (data) => {
+			// console.log(JSON.stringify(data, null, 3));
+			console.log(data);
+			expect((data as any).length).to.be.equal(4);
 
 			done();
-		}, 2000);
+		});
 	});
 
 	it("Set/Get string: positive", (done: MochaDone) => {
 		// Arrange
-		RedisService.set("key", "cool value", (errorSet: any, dataSet) => {
-			console.log("errorSet", errorSet);
-			console.log("dataSet", dataSet);
-			expect(dataSet).to.be.equal("OK");
+		redis.set("key", "cool value")
+			.then((data) => expect(data).to.be.equal("OK"))
+			.then(() => redis.get("key")) // Act
+			.then((data) => {
 
-			// Act
-			RedisService.get("key", (getError, getData: any) => {
-				console.log("getError", getError);
-				console.log("getData", getData);
-				expect(getData).to.be.an("string");
-				expect(getData).to.be.equal("cool value");
+				// Assert
+				expect(data).to.be.an("string");
+				expect(data).to.be.equal("cool value");
 				done();
 			});
-
-
-		});
 
 	});
 
@@ -56,29 +48,21 @@ describe("RedisService", () => {
 				"js", 2, 3, 4, 5, 6
 			]
 		};
-		RedisService.set(object.key, object, (errorSet: any, dataSet) => {
-			console.log("errorSet", errorSet);
-			console.log("dataSet", dataSet);
-			expect(errorSet).to.be.null;
-			expect(dataSet).to.be.equal("OK");
 
-			// Act
-			RedisService.get(object.key, (getError, getData: any) => {
-				console.log("getError", getError);
-				console.log("getData", getData);
-				expect(getError).to.be.null;
-
+		// Act
+		redis.set(object.key, object)
+			.then((data) => expect(data).to.be.equal("OK"))
+			.then(() => redis.get(object.key))
+			.then((data: any) => {
 				// Assert
-				expect(getData).to.be.an("string");
-				expect(getData).to.be.equal(JSON.stringify(object));
-				const _object = JSON.parse(getData);
-				expect(_object.versions[0]).to.be.equal("js");
-				expect(object.versions[2]).to.be.equal(3);
+				// expect(data).to.be.an("string");
+				// expect(data).to.be.equal(JSON.stringify(object));
+				// const _object = JSON.parse(data);
+				console.log(data);
+				expect(data.versions[0]).to.be.equal("js");
+				expect(data.versions[2]).to.be.equal(3);
 				done();
 			});
-
-
-		});
 
 	});
 
