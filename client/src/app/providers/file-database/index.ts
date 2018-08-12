@@ -4,7 +4,7 @@ import { MatTree } from '@angular/material';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import {BehaviorSubject} from 'rxjs';
-import { isArray, map } from 'lodash';
+import { isArray, map, findIndex } from 'lodash';
 
 /**
  * Json node data with nested structure. Each node has a filename and a value or a list of children
@@ -17,7 +17,7 @@ export interface FileNode {
 }
 
 /** Flat node with expandable and level information */
-export class FileFlatNode {
+export interface FileFlatNode {
   // filename: string;
   // type: any;
   key: string;
@@ -53,24 +53,37 @@ export class FileDatabase {
     return this.data[0].children;
   }
 
+  rawDataObject: {[key: string]: any};
+
   refresh = () => this.dataChange.next(this.data);
 
   constructor() {
-
+    this.refreshData({});
   }
 
-  pushRootChild(child: FileNode) {
-    this.rootChildren.push(child);
+  pushReplaceRootChild(child: FileNode) {
+    const index = findIndex(this.rootChildren, x => x.key === child.key);
+    if ( index === -1 ) {
+      this.rootChildren.push(child);
+    } else {
+      this.rootChildren[index] = child;
+    }
     this.refresh();
   }
 
-  refreshData<T>(dataObject: {[key: string]: T}) {
+  refreshData<T>(dataObject: {[key: string]: T} = this.rawDataObject) {
+
+    // keep cache
+    this.rawDataObject = dataObject;
+
     // Build the tree nodes from Json object. The result is a list of `FileNode` with nested file node as children.
     const data = this.buildFileTree({ Root: dataObject }, 0);
 
     // Notify the change.
     this.dataChange.next(data);
   }
+
+  getChildren = (arr: any[]) => map(arr, key => ({key}));
 
   /**
    * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
@@ -84,7 +97,7 @@ export class FileDatabase {
 
       if (value != null) {
         if (isArray(value)) {
-          node.children = map(value, _key => ({key: _key}));
+          node.children = this.getChildren(value);
         } else if (typeof value === 'object') {
           node.children = this.buildFileTree(value, level + 1);
         }
