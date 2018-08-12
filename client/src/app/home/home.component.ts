@@ -30,7 +30,7 @@ export class HomeComponent implements AfterViewInit {
 
   dataSource: MatTreeFlatDataSource<FileNode, FileFlatNode>;
 
-  constructor(database: FileDatabase,
+  constructor(private database: FileDatabase,
               public dialog: MatDialog,
               private snackBar: MatSnackBar,
               private socketService: SocketService) {
@@ -43,7 +43,7 @@ export class HomeComponent implements AfterViewInit {
     this.treeControl = new FlatTreeControl<FileFlatNode>(this._getLevel, this._isExpandable);
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-    database.dataChange.subscribe(data => {
+    this.database.dataChange.subscribe(data => {
       this.dataSource.data = data;
       this.expandAll();
     });

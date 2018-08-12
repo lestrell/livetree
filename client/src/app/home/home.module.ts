@@ -14,6 +14,7 @@ import { FormsModule } from "@angular/forms";
 import { DialogSimpleInputComponent } from '../dialogs/dialog-simple-input/index.component';
 import { DialogRangePickerComponent } from '../dialogs/dialog-range-picker/index.component';
 import { SocketService } from '@app/providers/socket-service/index.provider';
+import { FileDatabase } from "@app/providers/file-database";
 
 @NgModule({
   imports: [
@@ -37,7 +38,7 @@ import { SocketService } from '@app/providers/socket-service/index.provider';
     DialogRangePickerComponent
   ],
   providers: [
-    SocketService
+    SocketService, FileDatabase
   ]
 })
 export class HomeModule { }
