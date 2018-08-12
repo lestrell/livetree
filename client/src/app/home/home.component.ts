@@ -4,11 +4,12 @@ import { MatTreeFlatDataSource, MatTreeFlattener, MatTree } from "@angular/mater
 import { FileDatabase, FileFlatNode, FileNode } from "../providers/file-database";
 import { Observable, of } from "rxjs";
 import { DialogSimpleInputComponent } from "@app/dialogs/dialog-simple-input/index.component";
-import { MatDialog } from "@angular/material";
+import { MatDialog, MatSnackBar } from "@angular/material";
 import { isEmpty } from "lodash";
 import { DialogRangePickerComponent } from "@app/dialogs/dialog-range-picker/index.component";
 import { SocketService } from "@app/providers/socket-service/index.provider";
 import { Logger } from '@app/core';
+import { IEditFactory } from '../../../../types/edit-factory';
 
 const logger = new Logger("HomeComponent");
 /**
@@ -17,8 +18,7 @@ const logger = new Logger("HomeComponent");
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.scss"],
-  providers: [FileDatabase, SocketService]
+  styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements AfterViewInit {
   @ViewChild("tree")
@@ -30,7 +30,10 @@ export class HomeComponent implements AfterViewInit {
 
   dataSource: MatTreeFlatDataSource<FileNode, FileFlatNode>;
 
-  constructor(private database: FileDatabase, public dialog: MatDialog, private socketService: SocketService) {
+  constructor(database: FileDatabase,
+              public dialog: MatDialog,
+              private snackBar: MatSnackBar,
+              private socketService: SocketService) {
     this.treeFlattener = new MatTreeFlattener(
       this.transformer,
       this._getLevel,
@@ -63,11 +66,10 @@ export class HomeComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result: string) => {
       if (!isEmpty(result)) {
-        // this.database.data.
-        // TODO: push data to server and tree
-        this.socketService.emit("new_factory", result, (data: any) => {
+        this.socketService.emit("new_factory", {key: result}, (data: any) => {
           logger.info("callback received", data);
-          // this.database.pushRootChild({ name: result });
+          this.snackBar.open(`${result} added successfully!`, 'Close', { duration: 2000 });
+          // this.database.pushRootChild({ key: data });
         });
         // logger.info("data", this.database)
         // this.database.pushRootChild({ name: result });
@@ -78,8 +80,6 @@ export class HomeComponent implements AfterViewInit {
   }
 
   editFactoryNodeDialog(node: FileNode): void {
-    console.log(node);
-
     const { key } = node;
 
     const dialogRef = this.dialog.open(DialogRangePickerComponent, {
@@ -87,8 +87,8 @@ export class HomeComponent implements AfterViewInit {
       data: { title: `Editing Factory key: ${key}`, key }
     });
 
-    dialogRef.afterClosed().subscribe((result: { min: number, max: number, numberOfNodes: number}) => {
-      console.log(result);
+    dialogRef.afterClosed().subscribe((result: IEditFactory) => {
+      logger.info(result);
       if (!isEmpty(result)) {
         this.socketService.emit("edit_factory", result, () => {
           logger.info("callback received");
@@ -100,15 +100,17 @@ export class HomeComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.expandAll();
+    // tslint:disable-next-line:max-line-length
+    // ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked. Previous value: 'aria-expanded: false'. Current value: 'aria-expanded: true'.
+    // this.expandAll();
   }
 
   transformer = (node: FileNode, level: number) => {
-    const flatNode = new FileFlatNode();
-    flatNode.key = node.key;
-    // flatNode.type = node.type;
-    flatNode.level = level;
-    flatNode.expandable = !!node.children;
+    const flatNode = {
+      key: node.key,
+      level,
+      expandable: !!node.children
+    };
     return flatNode;
   }
 

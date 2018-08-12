@@ -1,3 +1,4 @@
+import { MatTreeModule } from '@angular/material';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -7,9 +8,9 @@ import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
 import { MaterialModule } from '@app/material.module';
 import { HomeComponent } from './home.component';
-import { QuoteService } from './quote.service';
 
-import { range } from "lodash";
+import { FileDatabase } from '@app/providers/file-database';
+import { SocketService } from '@app/providers/socket-service/index.provider';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -21,12 +22,13 @@ describe('HomeComponent', () => {
         BrowserAnimationsModule,
         FlexLayoutModule,
         MaterialModule,
+        MatTreeModule,
         CoreModule,
         SharedModule,
         HttpClientTestingModule
       ],
       declarations: [HomeComponent],
-      providers: [QuoteService]
+      providers: [ SocketService, FileDatabase]
     })
       .compileComponents();
   }));

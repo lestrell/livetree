@@ -8,12 +8,12 @@ import { SharedModule } from '@app/shared';
 import { MaterialModule } from '@app/material.module';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
-import { QuoteService } from './quote.service';
 import { MatTreeModule } from '@angular/material';
 import { FormsModule } from "@angular/forms";
 
 import { DialogSimpleInputComponent } from '../dialogs/dialog-simple-input/index.component';
 import { DialogRangePickerComponent } from '../dialogs/dialog-range-picker/index.component';
+import { SocketService } from '@app/providers/socket-service/index.provider';
 
 @NgModule({
   imports: [
@@ -37,7 +37,7 @@ import { DialogRangePickerComponent } from '../dialogs/dialog-range-picker/index
     DialogRangePickerComponent
   ],
   providers: [
-    QuoteService
+    SocketService
   ]
 })
 export class HomeModule { }
