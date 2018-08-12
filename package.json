@@ -5,11 +5,11 @@
   "main": "./dist/server.js",
   "scripts": {
     "start": "node ./dist/server.js",
-    "build": "node ./node_modules/typescript/bin/tsc",
+    "build": "node ./node_modules/typescript/bin/tsc --project ./tsconfig.json",
     "start:local": "node ./node_modules/nodemon/bin/nodemon.js --watch ./src --exec ./node_modules/.bin/ts-node -- ./src/server.ts",
     "test": "mocha --reporter spec --compilers spec --compilers ts:ts-node/register \"src/**/*.spec.ts*\"",
     "test:redis": "mocha --reporter spec --compilers spec --compilers ts:ts-node/register \"src/services/redis/index.spec.ts*\"",
-    "postinstall": "npm i --prefix=./client && npm run build --prefix=./client"
+    "postinstall": "npm i --prefix=./client && npm run build --prefix=./client && npm i && npm run build"
   },
   "repository": {
     "type": "git",
@@ -46,6 +46,6 @@
     "mocha": "^5.2.0",
     "nodemon": "^1.18.3",
     "ts-node": "^7.0.0",
-    "typescript": "^2.7.2"
+    "typescript": "^2.8.1"
   }
 }

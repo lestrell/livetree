@@ -1,4 +1,4 @@
-import { IEditFactory } from './../../../types/edit-factory';
+import { IEditFactory } from '../../types/edit-factory';
 import SocketIO from "socket.io";
 import * as http from "http";
 import { RedisService as redis } from '../redis/index';

@@ -3,10 +3,8 @@ import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
 import { environment } from '@env/environment';
 import { Logger } from '@app/core';
-import { INewFactory } from '../../../../../types/new-factory';
-import { IRefreshData } from '../../../../../types/refresh-data';
 import { map } from "lodash";
-import { IEditReturnFactory } from '../../../../../types/edit-return-factory';
+import { INewFactory, IEditReturnFactory, IRefreshData } from '../../../types';
 
 let socket: SocketIOClient.Socket; // SocketIOClient.Socket;
 

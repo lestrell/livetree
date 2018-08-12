@@ -3,9 +3,9 @@ import env from './.env';
 
 export const environment = {
   production: true,
-  socketHost: "",  // TODO: replace with heroku endpoint
+  socketHost: "https://livetree.herokuapp.com",  // TODO: replace with heroku endpoint
   version: env.npm_package_version,
-  serverUrl: 'https://api.chucknorris.io', // TODO: replace with heroku endpoint
+  serverUrl: 'https://livetree.herokuapp.com/', // TODO: replace with heroku endpoint
   defaultLanguage: 'en-US',
   supportedLanguages: [
     'en-US',

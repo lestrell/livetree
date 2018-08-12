@@ -1,6 +1,6 @@
 import { Inject, Component } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
-import { IEditFactory } from "../../../../../types/edit-factory";
+import { IEditFactory } from "../../../types/edit-factory";
 
 @Component({
   selector: "app-dialog-range-picker",

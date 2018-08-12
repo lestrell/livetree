@@ -9,7 +9,7 @@ import { isEmpty } from "lodash";
 import { DialogRangePickerComponent } from "@app/dialogs/dialog-range-picker/index.component";
 import { SocketService } from "@app/providers/socket-service/index.provider";
 import { Logger } from '@app/core';
-import { IEditFactory } from '../../../../types/edit-factory';
+import { IEditFactory } from '../../types/edit-factory';
 
 const logger = new Logger("HomeComponent");
 /**

@@ -1,4 +1,3 @@
-import ioredis from 'ioredis';
 import redis, { RedisClient } from "redis";
 import url from "url";
 import util from "util";
