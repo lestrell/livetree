@@ -3,11 +3,11 @@
 	<p>{{data?.title}}</p>
 
   <mat-form-field>
-    <input matInput type="text" placeholder="Node name" [(ngModel)]="form.name">
+    <input matInput type="text" placeholder="Node name" [(ngModel)]="form.key">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput max="15" min="1" type="number" placeholder="Number of nodes" [(ngModel)]="form.numberOfNodes">
+    <input matInput max="15" min="1" type="number" placeholder="Number of nodes" [(ngModel)]="form.limit">
   </mat-form-field>
 
   <mat-form-field>

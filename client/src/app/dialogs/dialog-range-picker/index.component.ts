@@ -1,5 +1,6 @@
 import { Inject, Component } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { IEditFactory } from "../../../../../types/edit-factory";
 
 @Component({
   selector: "app-dialog-range-picker",
@@ -7,15 +8,15 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 })
 export class DialogRangePickerComponent {
 
-  form = {
-    min: 0, max: 100, numberOfNodes: 7, name: ""
+  form: IEditFactory = {
+    min: 0, max: 100, limit: 7, key: ""
   };
 
   constructor(
     public dialogRef: MatDialogRef<DialogRangePickerComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { title: string, name: string }
+    @Inject(MAT_DIALOG_DATA) public data: { title: string, key: string }
   ) {
-    this.form.name = data.name;
+    this.form.key = data.key;
   }
 
   onNoClick(): void {
