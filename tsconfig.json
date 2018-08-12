@@ -4,10 +4,15 @@
       "esModuleInterop": true,
       "target": "es6",
       "noImplicitAny": true,
-      "moduleResolution": "node",
+	  "moduleResolution": "node",
+	  "skipLibCheck": false,
       "sourceMap": true,
-      "outDir": "dist",
-      "baseUrl": ".",
+      "outDir": ".",
+	  "baseUrl": "./src",
+	  "lib": [
+		  "es6",
+		  "dom"
+	  ],
       "paths": {
           "*": [
               "node_modules/*",
@@ -15,6 +20,10 @@
           ]
       }
   },
+  "exclude": [
+	"src/**/*.test.ts",
+	"src/**/*.spec.ts"
+  ],
   "include": [
       "src/**/*"
   ]
