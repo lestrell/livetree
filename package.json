@@ -9,8 +9,8 @@
     "start:local": "node ./node_modules/nodemon/bin/nodemon.js --watch ./src --exec ./node_modules/.bin/ts-node -- ./src/server.ts",
     "test": "mocha --reporter spec --compilers spec --compilers ts:ts-node/register \"src/**/*.spec.ts*\"",
     "test:redis": "mocha --reporter spec --compilers spec --compilers ts:ts-node/register \"src/services/redis/index.spec.ts*\"",
-	"preinstall": "npm install -g @angular/cli @angular/compiler-cli typescript",
-	"postinstall": "npm i --prefix=./client --ignore-scripts && npm run build --prefix=./client && npm run build"
+	"preinstall_": "npm install -g @angular/cli @angular/compiler-cli typescript",
+	"postinstall": "npm run build && npm run setup --prefix=./client"
   },
   "repository": {
     "type": "git",
