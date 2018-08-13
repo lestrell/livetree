@@ -37,12 +37,12 @@ export class RedisService {
 
 	}
 
-	public static set(key: string, obj: any) {
-		return RedisService._redis.setAsync(key, isString(obj) ? obj : JSON.stringify(obj));
+	public static set<T>(key: string, obj: T) {
+		return RedisService._redis.setAsync(key, isString(obj) ? obj : JSON.stringify(obj)).catch(logger.error);
 	}
 
 	public static get(key: string) {
-		return RedisService._redis.getAsync(key).then((value) => parseJSON(value) || value);
+		return RedisService._redis.getAsync(key).then((value) => parseJSON(value) || value).catch(logger.error);
 	}
 
 	/**

@@ -10,6 +10,7 @@ import { DialogRangePickerComponent } from "@app/dialogs/dialog-range-picker/ind
 import { SocketService } from "@app/providers/socket-service/index.provider";
 import { Logger } from '@app/core';
 import { IEditFactory } from '../../types/edit-factory';
+import { IDialogRangePickerOptions } from "@app/dialogs/dialog-range-picker/input.component.types";
 
 const logger = new Logger("HomeComponent");
 /**
@@ -58,21 +59,21 @@ export class HomeComponent implements AfterViewInit {
   }
 
   openNewFactoryDialog(node: any): void {
-    console.log(node);
+    logger.info(node);
     const dialogRef = this.dialog.open(DialogSimpleInputComponent, {
       width: "250px",
-      data: { title: "New Factory Name" }
+      data: { title: "New Factory Name" } as IDialogRangePickerOptions
     });
 
-    dialogRef.afterClosed().subscribe((result: string) => {
+    dialogRef.afterClosed().subscribe((result: { factoryName: string }) => {
+      logger.info("openNewFactoryDialog afterClosed", {result});
+
       if (!isEmpty(result)) {
         this.socketService.emit("new_factory", {key: result}, (data: any) => {
           logger.info("callback received", data);
           this.snackBar.open(`${result} added successfully!`, 'Close', { duration: 2000 });
           // this.database.pushRootChild({ key: data });
         });
-        // logger.info("data", this.database)
-        // this.database.pushRootChild({ name: result });
 
         this.expandAll();
       }
@@ -93,7 +94,7 @@ export class HomeComponent implements AfterViewInit {
         this.socketService.emit("edit_factory", result, () => {
           logger.info("callback received");
         });
-        // this.database.data.
+
         // TODO: push data to server and tree
       }
     });

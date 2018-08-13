@@ -9,8 +9,8 @@
     "start:local": "node ./node_modules/nodemon/bin/nodemon.js --watch ./src --exec ./node_modules/.bin/ts-node -- ./src/server.ts",
     "test": "mocha --reporter spec --compilers spec --compilers ts:ts-node/register \"src/**/*.spec.ts*\"",
     "test:redis": "mocha --reporter spec --compilers spec --compilers ts:ts-node/register \"src/services/redis/index.spec.ts*\"",
-	"preinstall_": "npm install -g @angular/cli @angular/compiler-cli typescript",
-	"postinstall": "npm run build && npm run setup --prefix=./client"
+    "preinstall_": "npm install -g @angular/cli @angular/compiler-cli typescript",
+    "postinstall": "npm run build && npm run setup --prefix=./client"
   },
   "repository": {
     "type": "git",
@@ -42,15 +42,17 @@
     "@types/node": "^10.5.8",
     "@types/redis": "^2.8.6",
     "@types/socket.io": "^1.4.36",
+    "@types/socket.io-client": "^1.4.32",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.3",
+    "socket.io-client": "^2.1.1",
     "ts-node": "^7.0.0",
     "typescript": "^2.8.1"
   },
   "engines": {
-	  "node": "8.11.1",
-	  "npm": "5.6.0"
+    "node": "8.11.1",
+    "npm": "5.6.0"
   }
 }

@@ -9,7 +9,7 @@ import { MaterialModule } from '@app/material.module';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { MatTreeModule } from '@angular/material';
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { DialogSimpleInputComponent } from '../dialogs/dialog-simple-input/index.component';
 import { DialogRangePickerComponent } from '../dialogs/dialog-range-picker/index.component';
@@ -26,7 +26,8 @@ import { FileDatabase } from "@app/providers/file-database";
     MaterialModule,
     HomeRoutingModule,
     MatTreeModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     HomeComponent,
