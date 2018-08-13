@@ -45,6 +45,7 @@ export class DialogRangePickerComponent {
   createForm() {
     this.form = this.fb.group({
       key: [this._form.key, Validators.required, this.isValid.bind(this)],
+      oldKey: [this.data.key],
       min: [this._form.min, Validators.required],
       max: [this._form.max, Validators.required],
       limit: new FormControl(this._form.limit, [Validators.required, Validators.min(1), Validators.max(15)])

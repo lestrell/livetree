@@ -34,7 +34,8 @@ export class SocketService {
 
         socket.on("edit_factory", (data: IEditReturnFactory) => {
           logger.info("edit_factory", data);
-          const { key, children } = data;
+          const { key, oldKey, children } = data;
+          this.database.removeRootChild(oldKey);
           this.database.pushReplaceRootChild({ key, children: this.database.getChildren(children) });
         });
 
