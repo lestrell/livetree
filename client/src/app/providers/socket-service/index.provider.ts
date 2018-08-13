@@ -4,7 +4,7 @@ import * as io from 'socket.io-client';
 import { environment } from '@env/environment';
 import { Logger } from '@app/core';
 import { map } from "lodash";
-import { INewFactory, IEditReturnFactory, IRefreshData } from '../../../types';
+import { INewFactory, IEditReturnFactory, IRefreshData, IRemoveFactory } from '../../../types';
 
 let socket: SocketIOClient.Socket; // SocketIOClient.Socket;
 
@@ -44,6 +44,15 @@ export class SocketService {
           const _data = {};
           map(arr, ({key, children}) => _data[key] = children );
           this.database.refreshData(_data);
+        });
+
+        socket.on("remove_factory", (data: IRemoveFactory) => {
+          logger.info("remove_factory", data);
+          // tslint:disable-next-line:triple-equals
+          if (data.result == 1) {
+            this.database.removeRootChild(data.key);
+            this.database.refresh();
+          }
         });
     });
 

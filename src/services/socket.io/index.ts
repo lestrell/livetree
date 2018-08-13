@@ -1,9 +1,9 @@
 import { IEditFactory } from '../../types/edit-factory';
 import SocketIO from "socket.io";
 import * as http from "http";
-import { RedisService as redis } from '../redis/index';
+import { RedisService as redis } from '../redis';
 import { generateArrayFromRangeAndLimit } from "../../utils/generate-array-from-range-and-limit";
-import { INewFactory, IEditReturnFactory } from '../../types';
+import { INewFactory, IEditReturnFactory, IRemoveFactory } from '../../types';
 import { isFunction, merge } from 'lodash';
 import * as Bluebird from 'bluebird';
 
@@ -42,6 +42,15 @@ export class SocketIOService {
 		.then( () => isFunction(callback) && callback(returnData));
 	};
 
+	private onRemoveFactory = (data: IRemoveFactory, callback: any) => {
+		logger.info({onRemoveFactory: data })
+		let tmp = {} as any;
+		redis.remove(data.key)
+		.then( (result: 0|1) => tmp = result )
+		.then( () => me.io.emit("remove_factory", { key: data.key, result: tmp } ) )
+		.then( () => isFunction(callback) && callback( { key: data.key, result: tmp } ) );
+	}
+
 	// private emitRefreshData = async() => await redis.getAll()
 
 	constructor(http: http.Server) {
@@ -62,6 +71,8 @@ export class SocketIOService {
 			socket.on("new_factory", me.onNewFactory);
 
 			socket.on("edit_factory", me.onEditFactory);
+
+			socket.on("remove_factory", me.onRemoveFactory);
 
 		});
 

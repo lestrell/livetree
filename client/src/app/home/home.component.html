@@ -30,7 +30,7 @@
         <mat-icon class="mat-icon-rtl-mirror">add</mat-icon>
       </button>
 
-      <button (click)="editFactoryNodeDialog(node)" *ngIf="node.level === 1" mat-icon-button color="primary" [matTooltip]="'Edit factory node:' + node.filename ">
+      <button (click)="editFactoryNodeDialog(node)" *ngIf="node.level === 1" mat-icon-button color="primary" [matTooltip]="'Edit factory node:' + node.key ">
         <mat-icon class="mat-icon-rtl-mirror">edit</mat-icon>
       </button>
 
