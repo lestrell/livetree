@@ -57,6 +57,8 @@ export class FileDatabase {
 
   refresh = () => this.dataChange.next(this.data);
 
+  getRootKeys = () => map(this.rootChildren, x => x.key);
+
   constructor() {
     this.refreshData({});
   }

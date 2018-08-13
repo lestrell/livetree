@@ -4,15 +4,20 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { DialogSimpleInputComponent } from './index.component';
 
-
 import { CoreModule } from '@app/core';
 import { SharedModule } from '@app/shared';
 import { MaterialModule } from '@app/material.module';
 import { By } from '@angular/platform-browser';
 
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+
 describe('DialogSimpleInputComponent', () => {
   let component: DialogSimpleInputComponent;
   let fixture: ComponentFixture<DialogSimpleInputComponent>;
+
+  const data = {
+    title: "Test Title"
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,7 +30,10 @@ describe('DialogSimpleInputComponent', () => {
         FormsModule
       ],
       declarations: [DialogSimpleInputComponent],
-      providers: []
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: data },
+        { provide: MatDialogRef, useValue: {} }
+      ]
     })
       .compileComponents();
   }));
@@ -40,13 +48,30 @@ describe('DialogSimpleInputComponent', () => {
     expect(component).toBeTruthy();
   });
 
+
+  it('should the expected title', () => {
+    // Arrange
+    const inputDe = fixture.debugElement.query(By.css('input'));
+    const inputEl = inputDe.nativeElement;
+    const placeholder = inputEl.getAttribute("placeholder");
+
+     // Assert
+    expect(placeholder).toEqual(data.title);
+
+  });
+
   it('should set the value to the input', () => {
+    // Arrange
     const inputDe = fixture.debugElement.query(By.css('input'));
     const inputEl = inputDe.nativeElement;
     inputEl.value = 'SingleInputValue';
+
+    // Act
     inputEl.dispatchEvent(new Event('input'));
     fixture.detectChanges();
-    expect(component.input).toEqual('Updated Task 1');
+
+    // Assert
+    expect(component.input).toEqual('SingleInputValue');
   });
 
 });
