@@ -1,11 +1,22 @@
 <!-- <h1 mat-dialog-title>Hi {{data.name}}</h1> -->
 <div mat-dialog-content>
-	<!-- <p>{{data?.title}}</p> -->
-	<mat-form-field>
-		<input matInput autocomplete="off" [(ngModel)]="input" [placeholder]="data?.title">
-	</mat-form-field>
+  <!-- <p>{{data?.title}}</p> -->
+  <form [formGroup]="form" novalidate>
+
+
+    <mat-form-field>
+      <input matInput autocomplete="off" formControlName="factoryName" [placeholder]="data?.title">
+      <mat-error *ngIf="form?.controls?.factoryName?.errors?.required">
+        <span translate>Factory name is required</span>
+      </mat-error>
+      <mat-error *ngIf="form?.controls?.factoryName?.errors?.itExists">
+        <span translate>This factory name already exists.</span>
+      </mat-error>
+    </mat-form-field>
+  </form>
+
 </div>
 <div mat-dialog-actions>
-	<button mat-button (click)="onNoClick()">Close</button>
-	<button mat-button [mat-dialog-close]="input" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-button [disabled]="!form.valid" [mat-dialog-close]="form.value" cdkFocusInitial>Ok</button>
 </div>

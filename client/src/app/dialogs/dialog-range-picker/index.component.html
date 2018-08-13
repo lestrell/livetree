@@ -1,29 +1,42 @@
 <!-- <h1 mat-dialog-title>Hi {{data.name}}</h1> -->
 <div mat-dialog-content>
-	<p>{{data?.title}}</p>
+  <p>{{title}}</p>
 
-  <mat-form-field>
-    <input matInput type="text" placeholder="Node name" [(ngModel)]="form.key">
-  </mat-form-field>
+  <form [formGroup]="form" novalidate>
 
-  <mat-form-field>
-    <input matInput max="15" min="1" type="number" placeholder="Number of nodes" [(ngModel)]="form.limit">
-  </mat-form-field>
 
-  <mat-form-field>
-    <input matInput type="number" placeholder="Min value" [(ngModel)]="form.min">
-  </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Node name" formControlName="key">
+      <mat-error *ngIf="form?.controls?.key?.errors?.required">
+        <span translate>Factory name is required</span>
+      </mat-error>
+      <mat-error *ngIf="form?.controls?.key?.errors?.itExists">
+        <span translate>This factory name already exists.</span>
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field>
-    <input matInput type="number" placeholder="Max value" [(ngModel)]="form.max">
-  </mat-form-field>
+    <mat-form-field>
+      <input matInput max="15" min="1" type="number" placeholder="Number of nodes" formControlName="limit">
+      <mat-error *ngIf="form?.controls?.limit?.errors?.max">
+        <span translate>15 is the maximun number</span>
+      </mat-error>
+      <mat-error *ngIf="form?.controls?.limit?.errors?.min">
+        <span translate>1 is the minimum number</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" placeholder="Min value" formControlName="min">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="number" placeholder="Max value" formControlName="max">
+    </mat-form-field>
+  </form>
 
 </div>
-
 
 <div mat-dialog-actions>
-	<button mat-button (click)="onNoClick()">Close</button>
-	<button mat-button [mat-dialog-close]="form" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-button [disabled]="!form.valid" [mat-dialog-close]="form.getRawValue()" cdkFocusInitial>Ok</button>
 </div>
-
-
