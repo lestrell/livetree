@@ -5,6 +5,22 @@ describe("RedisService", () => {
 
 	before(() => redis.init()); // if development, the database will be flushed everytime
 
+	it("remove key", () => {
+		redis.set("one", { key: "one", value: "valueOne"})
+		.then( () => redis.get("one"))
+		.then( (data: any) => expect(data.value).to.be.equal("valueOne"))
+		.then( () => redis.remove("one") )
+		.then( data => expect(data).to.be.equal(1) );
+	});
+
+	it("remove key", () => {
+		redis.set("one", { key: "one", value: "valueOne"})
+		.then( () => redis.get("one"))
+		.then( (data: any) => expect(data.value).to.be.equal("valueOne"))
+		.then( () => redis.remove("one1") )
+		.then( data => expect(data).to.be.equal(0) );
+	});
+
 	it("Set/Get Many", (done: MochaDone) => {
 
 		Promise.all([
@@ -16,7 +32,7 @@ describe("RedisService", () => {
 		.then(() => redis.getAll())
 		.then( (data) => {
 			// console.log(JSON.stringify(data, null, 3));
-			console.log(data);
+			console.log("data:27", data);
 			expect((data as any).length).to.be.equal(4);
 
 			done();

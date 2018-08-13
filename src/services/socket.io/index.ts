@@ -4,7 +4,8 @@ import * as http from "http";
 import { RedisService as redis } from '../redis/index';
 import { generateArrayFromRangeAndLimit } from "../../utils/generate-array-from-range-and-limit";
 import { INewFactory, IEditReturnFactory } from '../../types';
-import { isFunction } from 'lodash';
+import { isFunction, merge } from 'lodash';
+import * as Bluebird from 'bluebird';
 
 const logger = console;
 
@@ -24,15 +25,21 @@ export class SocketIOService {
 	};
 
 	private onEditFactory = (data: IEditFactory, callback: any) => {
+		let removePromise: Bluebird<0|1> = Promise.resolve(0) as any;
+		if (data.oldKey !== data.key) {
+			removePromise = redis.remove(data.oldKey)
+		}
 		logger.info("edit_factory", data, callback);
 		const children = generateArrayFromRangeAndLimit(data);
 
-		const _data: IEditReturnFactory = { key: data.key, children };
+		const redisData: IEditReturnFactory = { key: data.key, children };
 
-		redis
-		.set<IEditReturnFactory>(data.key, _data)
-		.then( () => me.io.emit("edit_factory", _data))
-		// .then( () => isFunction(callback) && callback(_data));
+		const returnData = merge(redisData, { oldKey: data.oldKey });
+
+		(removePromise || Promise.resolve() as any)
+		.then( (data: any) => redis.set<IEditReturnFactory>(data.key, redisData) )
+		.then( () => me.io.emit("edit_factory", returnData))
+		.then( () => isFunction(callback) && callback(returnData));
 	};
 
 	// private emitRefreshData = async() => await redis.getAll()
