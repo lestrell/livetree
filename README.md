@@ -1,6 +1,12 @@
 ## [livetree](http://livetree.herokuapp.com/home)
 Live-updating tree view web application
 
+### TODO
+* Add access logger
+* Add JWT authentication
+* Add [bunyan](https://github.com/trentm/node-bunyan) JSON logger
+* Build a testing pipeline
+
 ### Frontend
 * [Angular 6](https://angular.io/)
 * [Angular Material](https://material.angular.io/)
