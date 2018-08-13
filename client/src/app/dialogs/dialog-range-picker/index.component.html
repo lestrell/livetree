@@ -1,6 +1,11 @@
 <!-- <h1 mat-dialog-title>Hi {{data.name}}</h1> -->
 <div mat-dialog-content>
-  <p>{{title}}</p>
+  <div style="display:flex;">
+      <p style="margin-top: 12px;">{{title}}</p>
+      <button (click)="remove()" mat-icon-button>
+        <mat-icon>delete</mat-icon>
+      </button>
+  </div>
 
   <form [formGroup]="form" novalidate>
 
