@@ -14,6 +14,7 @@ export interface IRedisClient extends RedisClient {
 	setAsync(key: string, value: string): Bluebird<"OK">;
 	getAsync(key: string): Bluebird<string>;
 	keysAsync(key: string): Bluebird<string[]>;
+	delAsync(key: string): Bluebird<0|1>;
 }
 
 export class RedisService {
@@ -43,6 +44,10 @@ export class RedisService {
 
 	public static get(key: string) {
 		return RedisService._redis.getAsync(key).then((value) => parseJSON(value) || value).catch(logger.error);
+	}
+
+	public static remove(key: string) {
+		return RedisService._redis.delAsync(key);
 	}
 
 	/**

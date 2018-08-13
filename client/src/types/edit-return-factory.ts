@@ -1,4 +1,5 @@
 export interface IEditReturnFactory {
 	key: string;
-	children: number[];
+  children: number[];
+  oldKey?: string;
 }

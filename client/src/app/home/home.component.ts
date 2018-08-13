@@ -11,6 +11,7 @@ import { SocketService } from "@app/providers/socket-service/index.provider";
 import { Logger } from '@app/core';
 import { IEditFactory } from '../../types/edit-factory';
 import { IDialogRangePickerOptions } from "@app/dialogs/dialog-range-picker/input.component.types";
+import { IEditReturnFactory } from "../../types";
 
 const logger = new Logger("HomeComponent");
 /**
@@ -69,7 +70,7 @@ export class HomeComponent implements AfterViewInit {
       logger.info("openNewFactoryDialog afterClosed", {result});
 
       if (!isEmpty(result)) {
-        this.socketService.emit("new_factory", {key: result}, (data: any) => {
+        this.socketService.emit("new_factory", {key: result.factoryName}, (data: any) => {
           logger.info("callback received", data);
           this.snackBar.open(`${result} added successfully!`, 'Close', { duration: 2000 });
           // this.database.pushRootChild({ key: data });
@@ -88,7 +89,7 @@ export class HomeComponent implements AfterViewInit {
       data: { title: `Editing Factory key: ${key}`, key }
     });
 
-    dialogRef.afterClosed().subscribe((result: IEditFactory) => {
+    dialogRef.afterClosed().subscribe((result: IEditReturnFactory) => {
       logger.info(result);
       if (!isEmpty(result)) {
         this.socketService.emit("edit_factory", result, () => {

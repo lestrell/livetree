@@ -4,7 +4,7 @@ import { MatTree } from '@angular/material';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import {BehaviorSubject} from 'rxjs';
-import { isArray, map, findIndex } from 'lodash';
+import { isArray, map, findIndex, remove } from 'lodash';
 
 /**
  * Json node data with nested structure. Each node has a filename and a value or a list of children
@@ -61,6 +61,10 @@ export class FileDatabase {
 
   constructor() {
     this.refreshData({});
+  }
+
+  removeRootChild(key: string) {
+    remove(this.rootChildren, x => x.key === key);
   }
 
   pushReplaceRootChild(child: FileNode) {

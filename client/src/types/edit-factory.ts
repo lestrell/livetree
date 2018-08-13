@@ -3,4 +3,5 @@ export interface IEditFactory {
   max: number;
   limit: number;
   key: string;
+  oldKey?: string;
 }
